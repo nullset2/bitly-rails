@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
+  get ":slug", to: "urls#redirect", constraints: { slug: /\w{6}/ }
   root "urls#new"
 end

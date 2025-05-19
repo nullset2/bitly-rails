@@ -1,5 +1,5 @@
 class UrlsController < ApplicationController
-  before_action :set_url, only: %i[ show edit update destroy ]
+  before_action :set_url, only: %i[show edit update destroy]
 
   # GET /urls or /urls.json
   def index
@@ -19,6 +19,12 @@ class UrlsController < ApplicationController
   def edit
   end
 
+  def redirect
+    @url = Url.find_by(slug: params[:slug])
+    render status: 404 if !@url
+    redirect_to @url.original_url, allow_other_host: true
+  end
+
   # POST /urls or /urls.json
   def create
     collision = true
@@ -32,7 +38,7 @@ class UrlsController < ApplicationController
     end
 
     if collision
-       render :status => 500
+       render status: 500
     end
        
     @url = Url.new(url_params.merge!(slug: slug))
