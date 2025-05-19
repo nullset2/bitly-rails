@@ -21,7 +21,21 @@ class UrlsController < ApplicationController
 
   # POST /urls or /urls.json
   def create
-    @url = Url.new(url_params)
+    collision = true
+    slug = ''
+    5.times do
+      slug = rand(36**6).to_s(36)
+      if !Url.where(slug: slug).exists?
+        collision = false
+        break
+      end
+    end
+
+    if collision
+       render :status => 500
+    end
+       
+    @url = Url.new(url_params.merge!(slug: slug))
 
     respond_to do |format|
       if @url.save

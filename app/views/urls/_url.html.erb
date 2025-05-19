@@ -1,12 +1,9 @@
 <div id="<%= dom_id url %>">
   <p>
-    <strong>Original url:</strong>
-    <%= url.original_url %>
-  </p>
+  <strong>Minified url:</strong>
+  <% m = request.host_with_port + '/' + url.slug %>
+  <a href="<%= m %>"><%= m %></a>
 
-  <p>
-    <strong>Slug:</strong>
-    <%= url.slug %>
   </p>
 
 </div>
